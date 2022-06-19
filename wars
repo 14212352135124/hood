@@ -1,0 +1,154 @@
+local Framework = loadstring(game:HttpGet("https://pastebinp.com/raw/KP1dUHFg"))()
+local Watermark = Framework:CreateWatermark("TypeHub | {game} | {fps}")
+local WriteLine = Framework:CreateWindow("Heighbour Hood Wars", Vector2.new(492, 588), Enum.KeyCode.RightControl)
+local ESPSettings = { PlayerESP = { Enabled = false, TracersOn = false, BoxesOn = false, NamesOn = false, DistanceOn = false, HealthOn = false, ToolOn = false, FaceCamOn = false, Distance = 2000 }, ScrapESP = { Enabled = false, Distance = 2000, LegendaryOnly = true, RareOnly = true, GoodOnly = true, BadOnly = true }, SafeESP = { Enabled = false, Distance = 2000, BigOnly = true, SmallOnly = true }, RegisterESP = { Enabled = false, Distance = 2000 }, ESPColor = Color3.fromRGB(255, 255, 255), ToolColor = Color3.fromRGB(255, 255, 255)};
+local ESPFramework = loadstring(game:HttpGet("https://raw.githubusercontent.com/DOXSASHW/ewewew/main/esp", true))()
+
+
+
+local General = WriteLine:CreateTab("Main")
+local Main = General:CreateSector("Player", "right")
+local Main2 = General:CreateSector("Combat", "right")
+local Main4 = General:CreateSector("Visuals", "right")
+General:CreateConfigSystem("left")
+
+
+local WALKSPEED = Main:AddToggle("Enable Walkspeed", false, function(v)
+    if v == true then
+        getgenv().WalkSpeedValue = _G.WalkSpeed; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+        Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+        end)
+        Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+        end 
+        if v == false then
+        getgenv().WalkSpeedValue = 16; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+        Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+        end)
+        Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+    end
+    end)
+    WALKSPEED:AddKeybind("None", "UserIToggle")
+    
+Main:AddSlider("Walkspeed", 5, 5, 60, 1, function(v)
+    _G.WalkSpeed = v
+end)
+
+
+Main:AddToggle("Enable Jump Power", false, function(v)
+    if v == true then
+        getgenv().JumpPowerValue = _G.JumpPower; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end)
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end 
+    if v == false then
+        getgenv().JumpPowerValue = 50; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'JumpPower':Connect(function()
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end)
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+    end
+end)
+    
+Main:AddSlider("Jump Power", 5, 5, 80, 1, function(v)
+    _G.JumpPower = v
+end)
+
+
+
+
+Main2:AddToggle("No Recoil", false, function(v)
+    for i,v in pairs(getgc()) do
+        if type(v) == "function" and islclosure(v) and tostring(getfenv(v).script) == "client_main" then
+        local lol = getconstants(v)
+        if table.find(lol, "math") and table.find(lol, "random") and table.find(lol, "rad") then
+            for i2,v2 in pairs(getupvalues(v)) do
+                if type(v2) == "number" then
+                    setupvalue(v,i2,0)
+                    end
+                end
+            end
+        end
+     end
+end)
+
+Main2:AddToggle("No Spread", false, function(v)
+    for i,v in pairs(getgc()) do
+        if type(v) == "function" and islclosure(v) and tostring(getfenv(v).script) == "client_main" then
+        local lol = getconstants(v)
+        if table.find(lol, "math") and table.find(lol, "random") and table.find(lol, "PumpAction") and table.find(lol, "Vector3") then
+            setconstant(v, 15, "cos")
+            end
+        end
+     end
+end)
+
+Main2:AddToggle("distance of guns", false, function(v)
+    for i,v in pairs(getgc(true)) do
+        if typeof(v) == "table" and rawget(v, "maxdistance") then
+            rawset(v, "maxdistance", 9999)
+        end
+    end
+end)
+Main2:AddToggle("Silent Aim", false, function(v)
+    loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/stringsplit/luaprojects/master/NWAim.lua'))()
+end)
+
+
+Main4:AddToggle("Enable ESP", ESPSettings.PlayerESP.Enabled, function(v)
+    ESPSettings.PlayerESP.Enabled = v
+
+    ESPFramework.Color = ESPSettings.ESPColor
+    ESPFramework.ToolColor = ESPSettings.ToolColor
+    ESPFramework.Tracers = ESPSettings.PlayerESP.TracersOn
+    ESPFramework.Names = ESPSettings.PlayerESP.NamesOn
+    ESPFramework.Health = ESPSettings.PlayerESP.HealthOn
+    ESPFramework.Distance = ESPSettings.PlayerESP.DistanceOn
+    ESPFramework.Tool = ESPSettings.PlayerESP.ToolOn
+    ESPFramework.Boxes = ESPSettings.PlayerESP.BoxesOn
+    ESPFramework.FaceCamera = ESPSettings.PlayerESP.FaceCamOn
+    ESPFramework:Toggle(ESPSettings.PlayerESP.Enabled)
+end, "PlayerESPsToggle")
+
+Main4:AddToggle("Face Camera", ESPSettings.PlayerESP.FaceCamOn, function(v)
+    ESPSettings.PlayerESP.FaceCamOn = v
+    ESPFramework.FaceCamera = ESPSettings.PlayerESP.FaceCamOn
+end)
+
+Main4:AddToggle("Box ESP", ESPSettings.PlayerESP.BoxesOn, function(v)
+    ESPSettings.PlayerESP.BoxesOn = v
+    ESPFramework.Boxes = ESPSettings.PlayerESP.BoxesOn
+end)
+
+Main4:AddToggle("Tracers ESP", ESPSettings.PlayerESP.TracersOn, function(v)
+    ESPSettings.PlayerESP.TracersOn = v
+    ESPFramework.Tracers = ESPSettings.PlayerESP.TracersOn
+end)
+
+Main4:AddToggle("Name ESP", ESPSettings.PlayerESP.NamesOn, function(v)
+    ESPSettings.PlayerESP.NamesOn = v
+    ESPFramework.Names = ESPSettings.PlayerESP.NamesOn
+end)
+
+Main4:AddToggle("Health ESP", ESPSettings.PlayerESP.HealthOn, function(v)
+    ESPSettings.PlayerESP.HealthOn = v
+    ESPFramework.Health = ESPSettings.PlayerESP.HealthOn
+end)
+
+Main4:AddToggle("Tool ESP", ESPSettings.PlayerESP.ToolOn, function(v)
+    ESPSettings.PlayerESP.ToolOn = v
+    ESPFramework.Tool = ESPSettings.PlayerESP.ToolOn
+end)
+
+Main4:AddToggle("Distance ESP", ESPSettings.PlayerESP.DistanceOn, function(v)
+    ESPSettings.PlayerESP.DistanceOn = v
+    ESPFramework.Distance = ESPSettings.PlayerESP.DistanceOn
+end)
+
